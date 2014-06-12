@@ -10,6 +10,7 @@
     = stylesheet_link_tag "application", :media => "screen, projection"
     = stylesheet_link_tag "mod_mweb_events", :media => "screen, projection" if mod_enabled?('events')
     = stylesheet_link_tag_for_controller :media => "screen, projection"
+    = stylesheet_link_tag "futurizando", :media => "screen, projection"
     = stylesheet_link_tag "_development" unless Rails.env == "production"
     = yield :stylesheets
 

@@ -11,7 +11,8 @@ class Space < ActiveRecord::Base
   # TODO: temporary, review
   USER_ROLES = ["Admin", "User"]
 
-  attr_accessible :name, :permalink, :public, :disabled, :repository, :description, :deleted
+  attr_accessible :name, :permalink, :public, :disabled, :repository, :description, :deleted,
+  :logo_image, :crop_x, :crop_y, :crop_w, :crop_h
 
   has_many :posts, :dependent => :destroy
   has_many :news, :dependent => :destroy
