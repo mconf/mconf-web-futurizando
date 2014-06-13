@@ -18,7 +18,7 @@
   //background: #0083c4;
   //background: url('//unbouncepages-com.s3.amazonaws.com/unbouncepages.com/futurizando/optio-gplaypattern.original.png') repeat scroll center top #0086BE;
   background: #0087cb;
-  @include background(linear-gradient(bottom, #2292cb, #0087CB));
+  @include background(linear-gradient(bottom, #00689d, #0087CB));
   color: white;
   border-bottom: 2px solid #bbb;
 }
@@ -241,7 +241,8 @@ body.my.home, body.my.activity, body.my.recordings {
 /* Overriding bootstrap */
 .btn.btn-info, .btn.btn-primary {
   //background: #2E343D;
-  background: #374795;
+  //background: #5b6ecf; // cor yeah, clica em mim
+  background: $green;
   /* background: #058ac6 url(image_path("btn-info.png")) repeat-x; */
   /* border: 1px solid #0f86b3; */
   /* text-shadow: 0 1px 1px #48a3d2; */
