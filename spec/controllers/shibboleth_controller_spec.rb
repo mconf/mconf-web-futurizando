@@ -35,6 +35,61 @@ describe ShibbolethController do
     end
   end
 
+  shared_examples_for "a caller of #associate_with_new_account" do
+    let(:attrs) { FactoryGirl.attributes_for(:user) }
+
+    context "redirects to /secure if the user already has a valid token" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { ShibToken.create!(:identifier => user.email, :user => user) }
+      before(:each) { run_route }
+      it { should redirect_to(shibboleth_path) }
+    end
+
+    context "if there's no valid token yet" do
+
+      context "creates a new token with the correct information and goes back to /secure" do
+        before(:each) {
+          expect { run_route }.to change{ ShibToken.count }.by(1)
+        }
+        subject { ShibToken.last }
+        it { subject.identifier.should eq(attrs[:email]) }
+        it { subject.user.should_not be_nil } # just in case the find_by_email below fails
+        it { subject.user.should eq(User.find_by_email(attrs[:email])) }
+        it {
+          expected = {}
+          expected["Shib-inetOrgPerson-cn"] = attrs[:_full_name]
+          expected["Shib-inetOrgPerson-mail"] = attrs[:email]
+          expected["Shib-eduPerson-eduPersonPrincipalName"] = attrs[:_full_name]
+          subject.data.should eq(expected)
+        }
+        it { controller.should redirect_to(shibboleth_path) }
+        it { controller.should set_the_flash.to(I18n.t('shibboleth.create_association.account_created', :url => new_user_password_path)) }
+      end
+
+      context "if fails to create the new user, goes to /secure with an error message" do
+        before {
+          @user = FactoryGirl.build(:user)
+          @user.errors.add(:name, "can't be blank") # any fake error
+          Mconf::Shibboleth.any_instance.should_receive(:create_user).and_return(@user)
+        }
+        before(:each) {
+          expect { run_route }.not_to change{ ShibToken.count }
+        }
+        it { controller.should redirect_to(shibboleth_path) }
+        it { controller.should set_the_flash.to(I18n.t('shibboleth.create_association.error_saving_user', :errors => @user.errors.full_messages.join(', '))) }
+      end
+
+      context "if there's already a user with the target email, goes to /secure with an error message" do
+        before { FactoryGirl.create(:user, :email => attrs[:email]) }
+        before(:each) {
+          expect { run_route }.not_to change{ ShibToken.count }
+        }
+        it { controller.should redirect_to(shibboleth_path) }
+        it { controller.should set_the_flash.to(I18n.t('shibboleth.create_association.existent_account', :email => attrs[:email])) }
+      end
+    end
+  end
+
   describe "#login" do
 
     context "before filters" do
@@ -66,7 +121,7 @@ describe ShibbolethController do
 
     context "if the user's information is ok" do
       let(:user) { FactoryGirl.create(:user) }
-      before { setup_shib(user.full_name, user.email, false) }
+      before { setup_shib(user.full_name, user.email) }
 
       context "logs the user in if he already has a token" do
         before { ShibToken.create!(:identifier => user.email, :user => user) }
@@ -77,7 +132,7 @@ describe ShibbolethController do
         }
         it { subject.current_user.should eq(user) }
         it { should redirect_to(my_home_path) }
-        pending("persists the flash messages") {
+        skip("persists the flash messages") {
           # TODO: The flash is being set and flash.keep is called, but this test doesn't work.
           #  Testing in the application the flash is persisted, as it should.
           should set_the_flash.to('message set previously by #create_association')
@@ -90,6 +145,24 @@ describe ShibbolethController do
         it { should render_with_layout('no_sidebar') }
       end
 
+      context "if the flag shib_always_new_account is set" do
+        let(:attrs) { FactoryGirl.attributes_for(:user) }
+        before {
+          Site.current.update_attributes(:shib_always_new_account => true)
+          setup_shib(attrs[:_full_name], attrs[:email])
+        }
+
+        context "skips the association page" do
+          before(:each) { get :login }
+          it { should set_the_flash.to(I18n.t('shibboleth.create_association.account_created', :url => new_user_password_path)) }
+          it { should redirect_to(shibboleth_path)}
+        end
+
+        context "calls #associate_with_new_account" do
+          let(:run_route) { get :login }
+          it_should_behave_like "a caller of #associate_with_new_account"
+        end
+      end
     end
   end
 
@@ -99,75 +172,48 @@ describe ShibbolethController do
       let(:run_route) { post :create_association }
       it_should_behave_like "has the before_filter :check_shib_enabled"
       it_should_behave_like "has the before_filter :check_current_user"
+
+      context "has the before filter: ckeck_shib_always_new_account" do
+
+        context "when the flag shib_always_new_account is on" do
+          before {
+            Site.current.update_attributes(:shib_enabled => true,
+                                           :shib_always_new_account => true)
+          }
+          it { expect { post :create_association }.to raise_error(ActionController::RoutingError) }
+        end
+
+        context "when flag shib_always_new_account is off" do
+          before {
+            Site.current.update_attributes(:shib_enabled => true,
+                                           :shib_always_new_account => false)
+          }
+          context "should be able to call create_association" do
+            before(:each) { post :create_association }
+            it { expect { post :create_association }.not_to raise_error }
+            it("calls the action in the controller") {
+              controller.stub(:render) # prevent ActionView::MissingTemplate
+              controller.should_receive(:create_association)
+              post :create_association
+            }
+          end
+        end
+      end
     end
 
     context "if params has no known option, redirects to /secure with a warning" do
       let(:user) { FactoryGirl.create(:user) }
-      before { setup_shib(user.full_name, user.email, false) }
+      before { setup_shib(user.full_name, user.email) }
       before(:each) { post :create_association }
       it { should redirect_to(shibboleth_path) }
       it { should set_the_flash.to(I18n.t('shibboleth.create_association.invalid_parameters')) }
     end
 
     context "if params[:new_account] is set" do
-      let(:attrs) { FactoryGirl.attributes_for(:user) }
-      before { setup_shib(attrs[:_full_name], attrs[:email]) }
-
-      context "redirects to /secure if the user already has a valid token" do
-        let(:user) { FactoryGirl.create(:user) }
-        before { ShibToken.create!(:identifier => user.email, :user => user) }
-        before(:each) { post :create_association, :new_account => true }
-        it { should redirect_to(shibboleth_path) }
-      end
-
-      context "if there's no valid token yet" do
-
-        context "creates a new token with the correct information and goes back to /secure" do
-          before(:each) {
-            expect {
-              post :create_association, :new_account => true
-            }.to change{ ShibToken.count }.by(1)
-          }
-          subject { ShibToken.last }
-          it { subject.identifier.should eq(attrs[:email]) }
-          it { subject.user.should_not be_nil } # just in case the find_by_email below fails
-          it { subject.user.should eq(User.find_by_email(attrs[:email])) }
-          it {
-            expected = {}
-            expected["Shib-inetOrgPerson-cn"] = attrs[:_full_name]
-            expected["Shib-inetOrgPerson-mail"] = attrs[:email]
-            expected["Shib-eduPerson-eduPersonPrincipalName"] = attrs[:_full_name]
-            subject.data.should eq(expected.to_yaml) # it's a Hash in the db, so compare using to_yaml
-          }
-          it { controller.should redirect_to(shibboleth_path) }
-          it { controller.should set_the_flash.to(I18n.t('shibboleth.create_association.account_created', :url => new_user_password_path)) }
-        end
-
-        context "if fails to create the new user, goes to /secure with an error message" do
-          before {
-            @user = FactoryGirl.build(:user)
-            @user.errors.add(:name, "can't be blank") # any fake error
-            Mconf::Shibboleth.any_instance.should_receive(:create_user).and_return(@user)
-          }
-          before(:each) {
-            expect {
-              post :create_association, :new_account => true
-            }.not_to change{ ShibToken.count }
-          }
-          it { controller.should redirect_to(shibboleth_path) }
-          it { controller.should set_the_flash.to(I18n.t('shibboleth.create_association.error_saving_user', :errors => @user.errors.full_messages.join(', '))) }
-        end
-
-        context "if there's already a user with the target email, goes to /secure with an error message" do
-          before { FactoryGirl.create(:user, :email => attrs[:email]) }
-          before(:each) {
-            expect {
-              post :create_association, :new_account => true
-            }.not_to change{ ShibToken.count }
-          }
-          it { controller.should redirect_to(shibboleth_path) }
-          it { controller.should set_the_flash.to(I18n.t('shibboleth.create_association.existent_account', :email => attrs[:email])) }
-        end
+      context "calls #associate_with_new_account" do
+        let(:run_route) { post :create_association, :new_account => true }
+        before { setup_shib(attrs[:_full_name], attrs[:email]) }
+        it_should_behave_like "a caller of #associate_with_new_account"
       end
     end
 
@@ -228,7 +274,7 @@ describe ShibbolethController do
             User.find_first_by_auth_conditions({ :login => user.username }).should_not be_nil
           }
           it("uses the correct password") {
-            User.find_first_by_auth_conditions({ :login => user.username }).valid_password?('12345').should be_true
+            User.find_first_by_auth_conditions({ :login => user.username }).valid_password?('12345').should be_truthy
           }
           it { should redirect_to(shibboleth_path) }
           it { should set_the_flash.to(I18n.t("shibboleth.create_association.account_associated", :email => user.email)) }
@@ -242,7 +288,7 @@ describe ShibbolethController do
           }
           subject { ShibToken.last }
           it("sets the user in the token") { subject.user.should eq(user) }
-          it("sets the data in the token") { subject.data.should eq(@shib.get_data().to_yaml) }
+          it("sets the data in the token") { subject.data.should eq(@shib.get_data()) }
         end
 
         context "uses the user's ShibToken if it already exists" do
@@ -254,7 +300,7 @@ describe ShibbolethController do
           }
           subject { ShibToken.last }
           it("sets the user in the token") { subject.user.should eq(user) }
-          it("sets the data in the token") { subject.data.should eq(@shib.get_data().to_yaml) }
+          it("sets the data in the token") { subject.data.should eq(@shib.get_data()) }
         end
 
       end
@@ -280,7 +326,7 @@ describe ShibbolethController do
 
   private
 
-  def setup_shib(name, email, save_to_session=true)
+  def setup_shib(name, email)
     request.env["Shib-inetOrgPerson-cn"] = name
     request.env["Shib-inetOrgPerson-mail"] = email
     request.env["Shib-eduPerson-eduPersonPrincipalName"] = name

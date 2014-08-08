@@ -8,13 +8,26 @@
 require "digest/sha1"
 class UsersController < ApplicationController
 
-  load_and_authorize_resource :find_by => :username, :except => [:enable]
+  load_and_authorize_resource :find_by => :username, :except => [:enable, :index]
   before_filter :load_and_authorize_with_disabled, :only => [:enable]
+
+  # #index is nested in spaces
   load_and_authorize_resource :space, :find_by => :permalink, :only => [:index]
+  load_and_authorize_resource :through => :space, :only => [:index]
   before_filter :webconf_room!, :only => [:index]
 
   # Rescue username not found rendering a 404
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+
+  rescue_from CanCan::AccessDenied, :with => :handle_access_denied
+
+  def handle_access_denied exception
+    if @space.blank?
+      redirect_to register_path
+    else
+      render_403(exception)
+    end
+  end
 
   respond_to :html, :except => [:select, :current, :fellows]
   respond_to :js, :only => [:select, :current, :fellows]
@@ -45,18 +58,17 @@ class UsersController < ApplicationController
   end
 
   def update
-    unless params[:user].nil?
-      params[:user].delete(:username)
-      params[:user].delete(:email)
+    password_changed = false
+    if current_site.local_auth_enabled?
+      password_changed =
+        !params[:user].nil? && params[:user].has_key?(:password) &&
+        !params[:user][:password].empty?
     end
-    password_changed =
-      !params[:user].nil? && params[:user].has_key?(:password) &&
-      !params[:user][:password].empty?
     updated = if password_changed
-                @user.update_with_password(params[:user])
+                @user.update_with_password(user_params)
               else
                 params[:user].delete(:current_password) unless params[:user].nil?
-                @user.update_without_password(params[:user])
+                @user.update_without_password(user_params)
               end
 
     if updated
@@ -175,8 +187,21 @@ class UsersController < ApplicationController
   private
 
   def load_and_authorize_with_disabled
-    @user = User.with_disabled.find_by_username(params[:id])
+    @user = User.with_disabled.where(username: params[:id]).first
     authorize! :enable, @user
+  end
+
+  def user_params
+    unless params[:user].blank?
+      params[:user].permit(*allowed_params)
+    else
+      {}
+    end
+  end
+
+  def allowed_params
+    [ :password, :password_confirmation, :remember_me, :current_password,
+      :login, :approved, :disabled, :timezone, :can_record, :receive_digest, :notification ]
   end
 
 end

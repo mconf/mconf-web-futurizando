@@ -12,6 +12,10 @@ en:
         create_html: "A meeting was started on the room of the user %{owner} at %{time}"
       space:
         create_html: "A meeting was started on the space %{owner} at %{time}"
+    join_request:
+      invite_html: "was invited to join the space"
+      invite_with_introducer_html: "was invited by <a href=\"%{introducer_url}\">%{introducer}</a> to join the space"
+      request_html: "has requested to join the space"
     mweb_events_event:
       create_html: created the event %{name} in the space
       attend_html: will attend to the event %{name} in the space
@@ -69,6 +73,7 @@ en:
       one: "%{count} participant"
       other: "%{count} participants"
     publish: "Publish"
+    register: "Register"
     register_to_view_space: "Create an account to be able to join and access this space"
     save: "Save"
     send: "Send"
@@ -82,8 +87,8 @@ en:
     user:
       administrator: "Global administrator"
       normal_user: "Normal user"
-      guest: Guest
-      guest_name: "Guest User \(%{email}\)"
+      guest: "Guest"
+      guest_name: "Guest User (%{email})"
       removed: "<user removed>"
     yes_: "Yes"
     webconference:
@@ -157,12 +162,14 @@ en:
         ldap_username_field: "LDAP: Field to obtain the username"
         ldap_email_field: "LDAP: Field to obtain the user's email"
         ldap_name_field: "LDAP: Field to obtain the user's full name"
+        local_auth_enabled: "Enable local authentication"
         locale: "Language"
         name: "Name"
         presence_domain: "XMPP Chat Domain"
         registration_enabled: "Allow users to create new accounts"
         require_registration_approval: "Require admins to approve new registrations"
         signature: "Signature"
+        shib_always_new_account: "Shibboleth: Always create new account"
         shib_enabled: "Shibboleth: Enable"
         shib_email_field: "Shibboleth: Field for email"
         shib_env_variables: "Shibboleth: Environment variables"
@@ -256,6 +263,7 @@ en:
     not_selected: "No document selected"
     one: Attachment
     other: Attachments
+    repository_disabled: This space's document repository is not enabled.
     selected: 
       none: "No files selected"
       one: " file selected"
@@ -398,7 +406,6 @@ en:
       offline: "Offline"
     typing: "is typing..."
     title: "Chat"
-  check_mail: "Please, check your email"
   city: City
   click_here_to_see_more: "Click here to see more"
   click_to_hide: "Click to hide"
@@ -450,21 +457,11 @@ en:
         hint: "Type to start searching"
         no_results: "No results found"
         searching: "Searching..."
-    invite: 
-      desktop: 
-        not_selected: "Select this options to access from a <em>desktop computer</em>."
-        selected: "Access from a <em>desktop computer</em>."
-      field_name: "Your full name"
-      field_password: "Access key for this room"
-      mobile: 
-        details: "Available for Android devices. You have to install the application <a href=\"%{url}\">Mconf-Mobile</a> to use this option!"
-        details_short: "Available for Android devices only."
-        download: "Click here to download Mconf-Mobile."
-        not_selected: "Select this options to access from a <em>mobile device</em>."
-        selected: "Access from a <em>mobile device</em>."
-      selected: "selected"
-      title: "Join the room: <em>%{name}</em>"
-    invite_header: 
+    invite:
+      field_name: "You are joining as"
+      field_password: "Enter the access key for this meeting"
+      title: "Join room: <em>%{name}</em>"
+    invite_header:
       not_running: "not running"
       refresh: "This information is updated automatically"
       room_type_private: "This is a <em>private</em> web conference room"
@@ -487,10 +484,15 @@ en:
         title: "I don't have an account, I will join this room as a guest"
       title: "Join the room: <em>%{name}</em>"
     join_mobile:
-      direct_link: "<b>Click here</b> to join from a mobile device"
-      scan_code: "Or scan the code below:"
-      sip_number: "To join the voice conference from a SIP client, dial <b>%{number}</b>."
-      title: "Mobile access to %{room}"
+      click_to_download_android: "Click here to download the Android client"
+      click_to_download_ios: "Click here to download the Apple iOS (iPad, iPhone) client"
+      download_android_tip: "Para dispositivos com Android"
+      download_ios_tip: "Para dispositivos com Apple iOS (iPad, iPhone)"
+      not_launched: "If the application was not launched, make sure you have the Android mobile client installed. You can get it from:"
+      notice : "You are being redirected to the conference in your mobile device, please wait."
+      title: "Mobile access to \"%{room}\""
+      use_default_client: "If you are not on a mobile client, click here to join the session using the default desktop client."
+      try_again: "You have the application installed but it wasn't launched? Click here to try again."
     join_options:
       alert_webconf_running: "A meeting is currently in progress in this room. The options you change here will not affect the current meeting, only future meetings in this room!"
       metadata: 
@@ -657,22 +659,20 @@ en:
     one: Error
     other: Errors
     vcc_warning: "Warning:"
-  event_invitation: 
-    instructions: "Click Send for each invitation you want to send, and click Finish when you are done."
-    sent: "Invitations sent successfully"
-    will_invite: "People you will invite:"
   feedback: 
-    email: "%{email} sent the following feedback:"
-    note: "Help us improve Mconf. Please send your comments, problems and suggestions. We will try to answer as soon as possible."
-    one: Feedback
+    create:
+      check_mail: "Please check the email you informed in the feedback form, it seems wrong."
+      fill_fields: "Please fill in all the fields in the form to send your feedback."
+      success: "Your feedback e-mail was sent successfully. Thank you!"
+    new:
+      note: "Help us improve Mconf. Please send your comments, problems and suggestions. We will try to answer as soon as possible."
+      title: "Feedback"
     send: "Send feedback"
     send_us: "Send us feedback!"
-    sent: "Your feedback information e-mail has been successfully sent. Thank you"
     webconf: 
       stop_countdown: "Click here to stop it from closing and use it to browse this site"
       title: "Thank you for participating in this conference!"
       warning: "This window will be automatically closed in <span class='countdown'>%{seconds}</span> seconds"
-  fill_fields: "You should fill in all the fields"
   find: 
     browse: Browse
   find_in: "Find in:"
@@ -702,7 +702,6 @@ en:
     invite_url: "Invite URL"
     my: "My Home"
     my_spaces: "My spaces"
-    my_spaces_tooltip: "These are the spaces you belong to."
     no_spaces: "You not belong to any spaces. You can see the spaces available <a href=\"%{link}\">here</a>."
     one: home
     view_invite_url: "View Invite URL"
@@ -759,7 +758,6 @@ en:
     title2: "Space Invitation"
     to_accept_space: "To accept my invitation please visit 'URL'"
     to_event: "%{username} invites you to event %{eventname} in space %{space}"
-    to_space: "%{username} invites you to space %{space}"
     will_invite: "People you will invite"
     yes_accepted: accepted
   invite: 
@@ -776,11 +774,14 @@ en:
     asked_full: "<b>%{candidate}</b> wants to participate in %{space} space administered by you: %{comment} <br/><br/><p>To answer the request please visit <a href=\"%{url}\">%{url}</a></p><p>If you believe this message is a spam, please <a href=\"mailto:%{contact}\"> contact us </a> or send us <a href=\"%{feedback}\"> feedback.</a></p><p>%{signature}</p>"
     create:
       already_invited: "The following users already have an invitation pending: %{users}"
+      already_a_member: "%{name} is already a member"
       created: "Your join request has been sent to the administrators of the space"
       duplicated: "You already have a pending join request in this space"
       error: "Something went wrong when processing your request, please try again. (details: %{errors})"
       sent: "Your invitation was successfully sent to: %{users}"
       user_not_found: "User not found: %{id}"
+    destroy:
+      success: "Join request successfully cancelled"
     index:
       accept: "Accept join request by %{user}?"
       accept_as: "as"
@@ -804,12 +805,24 @@ en:
         no_results: "No results found"
         searching: "Searching..."
     new:
+      already_invited: "You already have an invitation to join this space! Go to the space's home page to see it"
       already_requested: "You already requested to join this space! Please wait for an administrator to accept it."
       message_title: "Send a join request to the administrators of the space"
+    show:
+      accept: "Yes, I want to join!"
+      already_accepted: "... but you're already a member of this space."
+      comment_invitation: "This is the comment written by %{name}:"
+      comment_request: "This request was already sent to the admins of the space, please wait for a response. This is the comment you wrote:"
+      decline: "No, not now"
+      decline_confirmation: "Are you sure you want to decline the invitation to join this space?"
+      remove: "Cancel this request"
+      remove_confirmation: "Are you sure you want to cancel the request to join this space?"
+      title_invitation: "You were invited to join the space \"%{name}\" on %{date}"
+      title_request: "You sent a join request to the space \"%{name}\" on %{date}"
     update:
       accepted: "Join request accepted"
       updated: "Join request status updated"
-      discarded: "Join request discarded"
+      declined: "Join request declined"
   keywords: "Keywords (*)"
   language: Language
   last_week: "Last week"
@@ -961,6 +974,10 @@ en:
         other: "Other"
         today: "Today"
       not_confirmed: "Your account is not activated yet. Please, check your email to activate it. (Did not receive an email? <a href=\"%{url}\">Click here</a>.)"
+      pending_join_requests:
+        one: "%{count} pending join request"
+        other: "%{count} pending join requests"
+      pending_join_requests_tooltip: "These are the invitations you received to join spaces or the join requests you sent."
       view_all_activity: "View all your activity"
       view_all_spaces: "View all spaces"
     edit_recording:
@@ -981,7 +998,6 @@ en:
       join: "Join the meeting!"
       join_mobile_full: "Join from a mobile device"
       not_running: "Your webconference is not in progress."
-      options: "Options"
       preferences: "Preferences"
       recordings: "View recordings"
       running_with:
@@ -1034,8 +1050,8 @@ en:
   past: Past
   people: people
   per_page: "per page"
-  permission: 
-    notification: 
+  permission:
+    notification:
       default: "%{username} has change your role in %{stage} to %{role}. "
       event: "%{username} has change your role in event %{event} to %{role}. "
       space: "%{username} has change your role in space %{space} to %{role}. "
@@ -1044,10 +1060,10 @@ en:
         event: "%{username} has change your role in event %{event} "
         space: "%{username} has change your role in space %{space} "
     updated: "User perfomance has been updated successfully"
-  permission: 
     other: "Access rights"
     update:
       success: "Permissions updated"
+      failure: "Problem updating permissions"
   personal_information: "Personal information"
   phone: 
     mobile: Mobile
@@ -1354,7 +1370,6 @@ en:
     join_invitation: 
       clarify_registered: "Please introduce password in order to join this space."
       clarify_unregistered: "Please introduce your full name and a password in order to register onto the Mconf and join this space."
-    join_pending: "Join request being processed"
     leave: 
       leave_this_space: "Leave this space"
       success: "You left the space %{space_name}"
@@ -1451,6 +1466,7 @@ en:
     edit_recording:
       title: "Edit your recording"
     error:
+      already_invited: "You were already invited to join this space, please accept or decline the invitation"
       need_join_to_access: "You need to join this space to access it. Send a join request to the administrators."
     index: 
       create_new_space: "Create a new space"
@@ -1492,12 +1508,16 @@ en:
       upcoming_events: "Upcoming events"
       webconference:
         attendees:
-          nobody: "There is nobody currently in the room."
+          nobody: "There is no meeting running."
         currently_running:
           one: "The webconference is currently in progress with %{count} participant"
           other: "The webconference is currently in progress with %{count} participants"
       webconference_join: "Join it"
       webconference_start: "Start it"
+    sidebar_notifications:
+      pending_join_requests:
+        one: "This space has %{count} pending join request!"
+        other: "This space has %{count} pending join requests!"
     sidebar_webconf_buttons:
       end: "Stop it"
       end_tooltip: "This action will end the current conference!"
@@ -1506,18 +1526,28 @@ en:
       join: "Join now!"
       join_mobile: "Join/mobile"
       join_mobile_full: "Join from a mobile device"
-      options: "Options"
       preferences: "Preferences"
       start: "Start"
+    space_join_button:
+      accept_or_decline: "Accept or decline"
+      already_requested: "Join request sent"
+      already_requested_alert: "You already requested to join this space, please wait for a moderator to accept you."
+      cancel_request: "Cancel request"
+      invitation_alert: "You have been invited to join this space, click the button above to accept or decline the invitation"
+      join: "Join this space"
     space_thumbnail:
       private: "Private"
       public: "Public"
+      reply_invitation: "Reply to the invitation"
+      view_join_request: "View the request you sent"
     thumbnail_view:
       no_spaces: "There are no spaces created yet!"
     unified_space:
       private: "Private space"
       public: "Public space"
+      reply_invitation: "Reply to the invitation"
       user_is_member: "You are a member of this space"
+      view_join_request: "View the request you sent"
       with_members: "with %{count} members"
     users: "Users in this space"
     webconference:
@@ -1728,6 +1758,12 @@ en:
       title: "Edit your account"
       yes_cancel_account: "Yes, cancel my account"
   username: Username
+  uploader:
+    button: Upload new file
+    fail: Upload error
+    progress: "{percent}% of {total_size}"
+    drag_files: Drag and drop files here to upload
+    processing: Processing...
   vCard: 
     corrupt: "The vCard you sent is corrupted or is a non-supported version"
     message: "Use your vCard to automatically fill in your profile"
@@ -1739,16 +1775,6 @@ en:
     one: Version
   view: "View"
   view_more: "View more"
-  web_conference_mailer:
-    invitation_mail:
-      event_name: "Meeting with %{name}"
-      message:
-        end: "End"
-        header: "You have been invited by <b>%{sender}</b> (%{email_sender}) to a meeting:"
-        join: "Join at"
-        password: "Access key"
-        start: "Start"
-      subject: "You have been invited to a meeting by %{name}"
   webconference: 
     invite_webconference: "Invite people to the webconference"
     join: Join

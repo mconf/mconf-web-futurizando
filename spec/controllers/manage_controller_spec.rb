@@ -13,6 +13,8 @@ describe ManageController do
       should respond_with(:success)
     }
 
+    it { should_authorize :manage, :users }
+
     context "sets @users to a list of all users, including disabled users" do
       before {
         @u1 = user
@@ -30,7 +32,7 @@ describe ManageController do
       FactoryGirl.create(:user)
       get :users
       assigns(:users).each do |user|
-        user.association(:profile).loaded?.should be_true
+        user.association(:profile).loaded?.should be_truthy
       end
     end
 
@@ -128,7 +130,7 @@ describe ManageController do
 
     context "if params[:partial] is set" do
       before(:each) { get :users, :partial => true }
-      it { should render_template(:users_list) }
+      it { should render_template('manage/_users_list') }
       it { should_not render_with_layout }
     end
 
@@ -148,6 +150,8 @@ describe ManageController do
       get :spaces
       should respond_with(:success)
     }
+
+    it { should_authorize :manage, :spaces }
 
     context "sets @spaces to a list of all spaces, including disabled spaces" do
       before {
@@ -222,7 +226,7 @@ describe ManageController do
 
     context "if params[:partial] is set" do
       before(:each) { get :spaces, :partial => true }
-      it { should render_template(:spaces_list) }
+      it { should render_template('manage/_spaces_list') }
       it { should_not render_with_layout }
     end
 
@@ -239,6 +243,8 @@ describe ManageController do
     it "sets @spam_posts to all posts marked as spam"
     it "renders manage/spam"
     it "renders with the layout no_sidebar"
+
+    it { should_authorize :manage, :spam }
   end
 
   describe "abilities", :abilities => true do
