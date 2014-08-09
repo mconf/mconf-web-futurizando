@@ -75,6 +75,11 @@ $page-header-link-color-hover: $link-color-hover;
 // global footer
 $footer-bg-color: $light-gray;
 $footer-height: 165px;
+$footer-link-color: $link-color;
+$footer-link-color-hover: $link-color-hover;
+$footer-link-color-active: $link-color-active;
+$footer-color: #666;
+$footer-h-color: #888;
 
 // h1, h2, h3, ...
 $h-font-color: #404040;
@@ -200,6 +205,17 @@ $z-index-tooltip: 999999;
   @return $color;
 }
 
+// Default border, lightens or darkens the background color.
+@function default-border($bg) {
+  @if (lightness( $bg ) > 40) {
+    $bg: darken($bg, 12);
+  }
+  @else {
+    $bg: lighten($bg, 12);
+  }
+  @return $bg;
+}
+
 //
 // Methods below from: https://github.com/stubbornella/oocss
 //
@@ -225,3 +241,30 @@ $z-index-tooltip: 999999;
     }
   }
 }
+
+// FUTURIZANDO
+$fut-purple: #292557;
+$fut-blue-light: #0087cb;
+$fut-blue-dark: #00689d;
+$fut-orange: #f38d1a;
+$main-color: $fut-blue-dark;
+$link-color: darken($fut-blue-dark, 10);
+$link-color-hover: lighten($link-color, 10);
+$link-color-active: darken($link-color-hover, 15);
+// navbar
+$navbar-height: 45px;
+$navbar-bg-color-dark: $fut-purple;
+$navbar-bg-color-light: $fut-purple;
+$navbar-font-color: #ccc;
+$navbar-font-color-hover: #fff;
+// page header
+//$page-header-link-color: #ccc;
+//$page-header-link-color-hover: $fut-blue-light;
+// footer
+$footer-bg-color: $fut-purple;
+$footer-height: 125px;
+$footer-link-color: #ccc;
+$footer-link-color-hover: $fut-blue-light;
+$footer-link-color-active: #fff;
+$footer-color: #aaa;
+$footer-h-color: #aaa;

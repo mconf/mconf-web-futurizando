@@ -6,52 +6,25 @@
 
 /* Overriding base.css.scss */
 #navbar-wrapper {
-  //background: url('//unbouncepages-com.s3.amazonaws.com/unbouncepages.com/futurizando/optio-gplaypattern.original.png') repeat scroll center top #2E343D;
   background: url(asset_path('futurizando-navbar-bg.jpg', 'image')) repeat scroll center top #2E343D;
   @include box-shadow(none);
-  //border-bottom: 2px solid #aaa;
 }
 #navbar {
-  height: 45px;
+  //height: 45px;
+
+  #navbar-right-links .user-info-dropdown {
+    padding-top: 10px;
+    padding-bottom: 7px;
+  }
 }
-#page-header-wrapper {
-  //background: #0083c4;
-  //background: url('//unbouncepages-com.s3.amazonaws.com/unbouncepages.com/futurizando/optio-gplaypattern.original.png') repeat scroll center top #0086BE;
-  background: #0087cb;
-  @include background(linear-gradient(bottom, #00689d, #0087CB));
-  color: white;
-  border-bottom: 2px solid #bbb;
-}
-body.frontpage #page-header {
-  @include font-size($font-bigger);
-}
+/* body.frontpage #page-header { */
+/*   @include font-size($font-bigger); */
+/* } */
 #page-header {
-  padding: 30px 0 20px 0;
-
-  .current-page-title, .current-page-title .main-title {
-    @include text-shadow(none);
-  }
-
-  .current-page-title.space-page {
-    .space-visibility, .user-is-member {
-      color: #ddd;
-
-      .icon-awesome {
-        background: white;
-        padding: 1px 2px;
-        @include border-radius(2px);
-        //color: white;
-      }
-    }
-  }
-
-  .current-page-logo {
-    background: #eee;;
-  }
+  padding: 10px 0;
 }
 ul#navbar-left-links, ul#navbar-right-links {
   @include font-size($font-normal);
-  //a { @include link-colors(#000, #888, #000, #000); }
 }
 #main-logo {
   img {
@@ -59,194 +32,6 @@ ul#navbar-left-links, ul#navbar-right-links {
     margin-top: 1px;
   }
 }
-ul#navbar-left-links li, #navbar #navbar-right-links li {
+ul#navbar-left-links li, ul#navbar-right-links li {
   margin-top: 13px;
-}
-ul#navbar-left-links a, #navbar #navbar-right-links a, ul#navbar-left-links .icon-awesome, #navbar #navbar-right-links .icon-awesome {
-  color: white;
-}
-
-
-/* Overriding my/* */
-body.my.home, body.my.activity, body.my.recordings {
-  #page-header {
-    padding: 10px 0 20px 0;
-
-    .icon-awesome {
-      color: #eee;
-    }
-    .icon-awesome.icon-paste {
-      color: #888;
-    }
-  }
-
-  #user-info a {
-    @include link-colors(#fff, #ddd, #ddd, #fff);
-  }
-
-  #user-info .user-avatar {
-    background: white;
-    border: 1px solid #0387bd;
-  }
-}
-
-
-/* // heights are needed to make it stick to the bottom */
-/* $footer-height: 20px; */
-/* $footer-total-height: $footer-height + 41px; // + padding + border + margin */
-
-/* /\* Overriding base.css.scss *\/ */
-/* #navbar-wrapper { */
-/*   //background: #f1f3f2; */
-/*   @include box-shadow(none); */
-/* } */
-/* #navbar { */
-/*   color: $font-color; */
-/* } */
-/* #page-header-wrapper { */
-/*   background: #057aab url(image_path("page-header-bg.png")) repeat-x; */
-/*   color: white; */
-/* } */
-/* body.frontpage #page-header { */
-/*   @include font-size($font-bigger); */
-/* } */
-/* #page-header { */
-/*   padding: 30px 0 20px 0; */
-
-/*   .current-page-title, .current-page-title .main-title { */
-/*     @include text-shadow(none); */
-/*   } */
-
-/*   .current-page-title.space-page { */
-/*     .space-visibility, .user-is-member { */
-/*       color: #ddd; */
-
-/*       .icon-awesome { */
-/*         background: white; */
-/*         padding: 1px 2px; */
-/*         @include border-radius(2px); */
-/*         //color: white; */
-/*       } */
-/*     } */
-/*   } */
-
-/*   .current-page-logo { */
-/*     background: #eee;; */
-/*   } */
-/* } */
-/* ul#navbar-left-links, ul#navbar-right-links { */
-/*   @include font-size($font-normal); */
-/*   //a { @include link-colors(#000, #888, #000, #000); } */
-/* } */
-/* #main-logo { */
-/*   width: 56px; */
-/*   height: 46px; */
-/*   //@include link-colors(#000, #888, #000, #000); */
-/* } */
-/* ul#navbar-left-links li, ul#navbar-right-links li { */
-/*   border: 0; */
-/*   margin-left: 20px; */
-/*   margin-top: 18px; */
-
-/*   .user-info { */
-/*     .user-avatar { */
-/*       border-color: darken($navbar-bg-color, 10); */
-/*     } */
-/*   } */
-/* } */
-/* #navbar #navbar-right-links { */
-/*   .user-info-dropdown { */
-/*     border: 0; */
-/*     padding: 12px 10px 10px 10px; */
-/*   } */
-
-/*   li { */
-/*     margin-top: 18px; */
-/*   } */
-
-/*   .btn { */
-/*     margin-top: -5px; */
-/*     margin-right: 10px; */
-/*     @include link-colors(#fff, #eee, #eee, #fff); */
-/*   } */
-/* } */
-
-/* #page-menu { */
-/*   margin-bottom: -22px; // #page-header's bottom margin -2px */
-
-/*   > ul > li.selected { */
-/*     > a, > a.danger-text { */
-/*       $normal: darken($page-menu-font-color, 40); */
-/*       $light: darken($page-menu-font-color, 20); */
-/*       @include link-colors($normal, $light, $light, $normal); */
-/*     } */
-/*   } */
-
-/*   > ul > li > a.danger-text { */
-/*     $normal: $page-menu-font-color; */
-/*     $light: lighten($page-menu-font-color, 10); */
-/*     @include link-colors($normal, $light, $light, $normal); */
-/*     opacity: 1; */
-/*   } */
-/* } */
-
-
-/* /\* Overriding my/\* *\/ */
-/* body.my.home, body.my.activity, body.my.recordings { */
-/*   #page-header { */
-/*     padding: 30px 0 20px 0; */
-
-/*     .icon-awesome { */
-/*       color: #eee; */
-/*     } */
-/*     .icon-awesome.icon-paste { */
-/*       color: #888; */
-/*     } */
-/*   } */
-
-/*   #user-info a { */
-/*     @include link-colors(#fff, #ddd, #ddd, #fff); */
-/*   } */
-
-/*   #user-info .user-avatar { */
-/*     background: white; */
-/*     border: 1px solid #0387bd; */
-/*   } */
-/* } */
-
-/* /\* Overriding frontpage/show.css.scss *\/ */
-/* body.frontpage.show { */
-/*   #main-logo { */
-/*     width: 389px; */
-/*   } */
-/*   #main-logo img { */
-/*     width: 389px; */
-/*     height: 141px; */
-/*   } */
-/* } */
-
-/* /\* Overriding footer.css.scss *\/ */
-/* #site { */
-/*   /\* Negative indent footer by it's height *\/ */
-/*   margin: 0 auto $footer-total-height*-1; */
-/* } */
-/* #footer-pusher { */
-/*   height: $footer-total-height; */
-/* } */
-/* #footer-wrapper { */
-/*   height: $footer-height; */
-/*   text-align: center; */
-/* } */
-
-/* Overriding bootstrap */
-.btn.btn-info, .btn.btn-primary {
-  //background: #2E343D;
-  //background: #5b6ecf; // cor yeah, clica em mim
-  background: $green;
-  /* background: #058ac6 url(image_path("btn-info.png")) repeat-x; */
-  /* border: 1px solid #0f86b3; */
-  /* text-shadow: 0 1px 1px #48a3d2; */
-  /* color: #fff; */
-
-  /* a { @include link-colors(#fff, #eee, #eee, #fff); } */
 }
