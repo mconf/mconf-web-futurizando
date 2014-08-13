@@ -7,8 +7,8 @@ class CreateSubscriptions < ActiveRecord::Migration
       t.string :paypal_id
       t.string :paypal_token
       t.boolean :completed, default: false
+      t.boolean :canceled, default: false
       t.timestamps
     end
-    add_index :subscriptions, :user_id, :unique => true
   end
 end

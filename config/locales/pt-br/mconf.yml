@@ -1071,6 +1071,38 @@ pt-br:
     plural: Telefones
   phone_optional: "Telefone (opcional)"
   place: Local
+  plans:
+    pricing:
+      call: "Contate-nos"
+      confirm_unsubscribe: 'Você tem certeza que deseja cancelar seu plano?'
+      discounted: "(com desconto)"
+      downgrade: "Contratar"
+      fee: "Taxa"
+      free: "Livre"
+      free_trial: "30 dias grátis"
+      javascripts:
+        stripe_checkout_button: "Contratar --"
+      lead: "GleimTalk é grátis para uso, crie uma conta e use-o agora. Colabore com mais pessoas simultaneamente contratando algum dos nossos planos pagos."
+      lead_signed_in: "Colabore com mais pessoas simultaneamente contratando algum dos nossos planos pagos."
+      monthly_fee: "Mensalidade"
+      no_plans:
+        alert_admins: "A lista de planos no banco de dados não corresponde à lista esperada por esta página! Verifique se os planos no banco de dados correspondem aos planos existentes no Stripe. Veja:"
+        alert_users: "Desculpe, a lista de planos e preços ainda não está disponível"
+      not_needed: "Não necessário"
+      notice: "Você pode modificar seu plano depois de ter se registrado."
+      plan1: "Básico (mensal)"
+      plan2: "Básico (anual)"
+      plan3: "Premium (mensal)"
+      plan4: "Premium (anual)"
+      plan5: "Corporativo"
+      sign_up_now: "Registre uma nova conta grátis"
+      storage: "Armazenamento"
+      title: "Planos e preços"
+      total_users: "Total de usuários em reuniões que você cria"
+      unlimited_participation: "Participação ilimitada"
+      upgrade: "Contratar"
+      your_plan: "Seu plano"
+      _yes: "Sim"
   please: "Por favor"
   popularity: Popularidade
   post:

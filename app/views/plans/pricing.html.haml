@@ -71,7 +71,7 @@
         %tr
           - plan_selected = false
           %td
-          - if current_subscription == 'FREE'
+          - if current_subscription_code == 'FREE'
             - plan_selected = true
             %td.selected
               %span= t('.your_plan')
@@ -79,13 +79,13 @@
             %td
               = link_to t('.downgrade'), subscription_path, :class => 'btn btn-small cancel-subscription-button', :method => 'delete', :confirm => t('.confirm_unsubscribe')
           - for plan in @plans
-            - if current_subscription == plan.code
+            - if current_subscription_code == plan.code
               - plan_selected = true
               %td.selected
                 %span= t('.your_plan')
             - else
               %td
-                - if plan_selected || current_subscription.nil?
+                - if plan_selected || current_subscription_code.nil?
                   = link_to t('.upgrade'), '', :class => 'purchase-button btn btn-info', :'data-plan-id' => plan.code
                 - else
                   = link_to t('.downgrade'), '', :class => 'purchase-button btn btn-small', :'data-plan-id' => plan.code

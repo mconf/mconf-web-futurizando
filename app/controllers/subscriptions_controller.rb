@@ -6,17 +6,11 @@
 # 3 or later. See the LICENSE file.
 
 class SubscriptionsController < ApplicationController
-  #rescue_from Paypal::Exception::APIError, with: :paypal_api_error
+  rescue_from Paypal::Exception::APIError, with: :paypal_api_error
 
   load_and_authorize_resource
 
   def create
-    if current_user.subscription.nil?
-      @subscription = Subscription.new
-    else
-      @subscription = current_user.subscription
-    end
-
     # the id gets here as the #code of the plan
     if params[:subscription] && params[:subscription][:plan_id]
       plan = Plan.find_by_code(params[:subscription][:plan_id])
@@ -32,6 +26,7 @@ class SubscriptionsController < ApplicationController
 
     @subscription.setup!(success_subscription_url, cancel_subscription_url)
     # TODO: error if setup fails
+
     redirect_to @subscription.redirect_uri
   end
 
@@ -52,32 +47,36 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    # current_user.subscription.destroy
+    # current_user.current_subscription.destroy
     # redirect_to pricing_path, :notice => t('subscriptions.destroy.success')
   end
 
   private
 
   def handle_callback
-    subscription = Subscription.find_by_paypal_token! params[:token]
+    subscription = Subscription.where(paypal_token: params[:token]).last
     @redirect_uri = yield subscription
     redirect_to @redirect_uri
   end
 
   def paypal_api_error(e)
+    # if Rails.env == "development"
+    #   raise e
+    # else
     redirect_to root_url, error: e.response.details.collect(&:long_message).join('<br />')
+    # end
   end
 
-  # def subscription_params
-  #   unless params[:subscription].blank?
-  #     params[:subscription].permit(*subscription_allowed_params)
-  #   else
-  #     {}
-  #   end
-  # end
+  def subscription_params
+    unless params[:subscription].blank?
+      params[:subscription].permit(*subscription_allowed_params)
+    else
+      {}
+    end
+  end
 
-  # def subscription_allowed_params
-  #   [ :plan ]
-  # end
+  def subscription_allowed_params
+    [ :plan ]
+  end
 
 end

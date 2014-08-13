@@ -6,13 +6,13 @@
 
 module SubscriptionsHelper
 
-  def current_subscription
+  def current_subscription_code
     if user_signed_in?
-      if current_user.subscription.nil?
+      if current_user.current_subscription.nil?
         subscription = 'FREE'
       else
-        if current_user.subscription.plan
-          subscription = current_user.subscription.plan.code
+        if current_user.current_subscription.plan
+          subscription = current_user.current_subscription.plan.code
         else
           # TODO: if a user has an old subscription he's being assumed as 'FREE'
           subscription = 'FREE'

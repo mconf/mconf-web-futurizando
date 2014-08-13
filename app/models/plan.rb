@@ -15,4 +15,8 @@ class Plan < ActiveRecord::Base
   validates :interval, presence: true
   validates :interval_count, presence: true
 
+  def amount_for_paypal_api
+    sprintf('%.2f', self.amount/100.0)
+  end
+
 end

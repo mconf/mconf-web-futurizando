@@ -1,0 +1,58 @@
+@import "compass/css3";
+@import "definitions";
+
+body.plans.pricing {
+
+  #table-pricing {
+
+    thead {
+      th {
+        @include font-size($font-medium);
+        text-align: center;
+      }
+    }
+
+    tbody tr {
+      td {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      td:first-child {
+        @include font-size($font-medium);
+        font-weight: bold;
+        text-align: right;
+        padding-right: 10px;
+      }
+    }
+
+    .observation {
+      display: block;
+      color: $green;
+    }
+
+    .selected span {
+      padding: 5px;
+      @include border-radius(4px);
+      display: block;
+      background: $alert-success-bg;
+      color: $alert-success-font;
+    }
+  }
+
+  .lead {
+    @include font-size($font-bigger);
+    margin: 20px 0;
+  }
+
+  .sign-up-button {
+    margin-bottom: 5px;
+  }
+
+  .sign-up-notice {
+    display: block;
+    margin-bottom: 20px;
+    color: $dark-gray;
+  }
+
+}

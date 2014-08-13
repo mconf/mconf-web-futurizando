@@ -1071,6 +1071,38 @@ en:
     plural: Telephones
   phone_optional: "Phone (optional)"
   place: Place
+  plans:
+    pricing:
+      call: "Call"
+      confirm_unsubscribe: 'Are you sure you want to cancel your subscription?'
+      discounted: "(discounted)"
+      downgrade: "Downgrade"
+      fee: "Fee"
+      free: "Free"
+      free_trial: "30-day free trial"
+      javascripts:
+        stripe_checkout_button: "Subscribe --"
+      lead: "GleimTalk is free to use, create an account to start using it now. Collaborate with more people simultaneously with any of our paid plans."
+      lead_signed_in: "Collaborate with more people simultaneously upgrading to any of our paid plans."
+      monthly_fee: "Monthly fee"
+      no_plans:
+        alert_admins: "The list of plans in the database is not as the list expected by this page! Make sure the plans in this database corresponds to the plans currently on Stripe. See:"
+        alert_users: "Sorry, the list of plans and pricing is not available yet"
+      not_needed: "Not needed"
+      notice: "You can upgrade your plan after registered."
+      plan1: "Basic (Monthly)"
+      plan2: "Basic (Yearly)"
+      plan3: "Premium (Monthly)"
+      plan4: "Premium (Yearly)"
+      plan5: "Corporate"
+      sign_up_now: "Sign up to a free account now"
+      storage: "Storage"
+      title: "Plans and pricing"
+      total_users: "Total users in meetings you host"
+      unlimited_participation: "Unlimited participation"
+      upgrade: "Upgrade"
+      your_plan: "Your plan"
+      _yes: "Yes"
   please: Please
   popularity: Popularity
   post: 

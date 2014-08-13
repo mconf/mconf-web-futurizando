@@ -79,10 +79,20 @@ end
 
 # TODO: temporary
 Plan.create!({
+  name: "Free",
+  code: "FREE",
+  description: "Free plan",
+  amount: "0",
+  currency: "usd",
+  interval: "MONTH",
+  interval_count: 1,
+  trial_days: 0
+})
+Plan.create!({
   name: "G Basic M",
   code: "G-Basic-M",
   description: "The plan G Basic M",
-  amount: "399",
+  amount: "299",
   currency: "usd",
   interval: "MONTH",
   interval_count: 1,
@@ -92,7 +102,27 @@ Plan.create!({
   name: "G Basic Y",
   code: "G-Basic-Y",
   description: "The plan G Basic Y",
-  amount: "3099",
+  amount: "2990",
+  currency: "usd",
+  interval: "YEAR",
+  interval_count: 1,
+  trial_days: 30
+})
+Plan.create!({
+  name: "G Premium M",
+  code: "G-Premium-M",
+  description: "The plan G Premium M",
+  amount: "999",
+  currency: "usd",
+  interval: "MONTH",
+  interval_count: 1,
+  trial_days: 30
+})
+Plan.create!({
+  name: "G Premium Y",
+  code: "G-Premium-Y",
+  description: "The plan G Premium Y",
+  amount: "9990",
   currency: "usd",
   interval: "YEAR",
   interval_count: 1,

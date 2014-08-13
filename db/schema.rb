@@ -406,11 +406,10 @@ ActiveRecord::Schema.define(version: 20140812182337) do
     t.string   "paypal_id"
     t.string   "paypal_token"
     t.boolean  "completed",    default: false
+    t.boolean  "canceled",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username"

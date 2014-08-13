@@ -28,7 +28,7 @@ class PlansController < ApplicationController
     plan2 = Plan.find_by_code('G-BASIC-Y')
     plan3 = Plan.find_by_code('G-PREMIUM-M')
     plan4 = Plan.find_by_code('G-PREMIUM-Y')
-    @plans = [plan1, plan2]
+    @plans = [plan1, plan2, plan3, plan4]
   end
 
   def fetch

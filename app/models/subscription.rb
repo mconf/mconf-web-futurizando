@@ -9,20 +9,37 @@ class Subscription < ActiveRecord::Base
   belongs_to :plan
   belongs_to :user
 
-  validates :user_id, presence: true, uniqueness: true
+  validates :user_id, presence: true
   validates :plan_id, presence: true
-  validates :paypal_token, uniqueness: true
-  validates :paypal_id, uniqueness: true
 
   attr_reader :redirect_uri, :popup_uri
 
+  scope :active, -> { where(completed: true, canceled: false) }
+
+  # Saves the subscription but only after canceling the user's previous subscription,
+  # if any
+  def save_with_payment!
+    previous = self.user.current_subscription
+    if previous && previous.plan_id != self.plan_id
+      previous.unsubscribe!
+    end
+    save!
+  end
+
   def setup!(return_url, cancel_url)
+    options = {
+      pay_on_paypal: true,
+      no_shipping: true,
+      allow_note: true,
+      logo: "http://futurizando.com.br/index_arquivos/14pmzxu-logofuturizando_06j01706j017000000.png",
+      brand: Site.current.name,
+      email: self.user.email
+    }
     response = client.setup(
       payment_request,
       return_url,
       cancel_url,
-      pay_on_paypal: true,
-      no_shipping: true
+      options
     )
     self.paypal_token = response.token
     self.save!
@@ -32,17 +49,16 @@ class Subscription < ActiveRecord::Base
   end
 
   def cancel!
-    #self.canceled = true
-    #self.save!
-    #self
-    self.destroy!
+    self.canceled = true
+    self.save!
+    self
   end
 
   def complete!
     response = client.subscribe!(self.paypal_token, recurring_request)
     self.paypal_id = response.recurring.identifier
     self.completed = true
-    self.save!
+    self.save_with_payment!
     self
   end
 
@@ -77,7 +93,8 @@ class Subscription < ActiveRecord::Base
       billing: {
         period: plan.interval.capitalize.to_sym,
         frequency: plan.interval_count,
-        amount: plan.amount
+        amount: plan.amount_for_paypal_api,
+        currency_code: plan.currency.upcase.to_sym,
       }
     }
     Paypal::Payment::Recurring.new(params)

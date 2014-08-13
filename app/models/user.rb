@@ -30,7 +30,21 @@ class User < ActiveRecord::Base
   end
 
   # Futurizando
-  has_one :subscription, :dependent => :destroy
+  has_many :subscriptions, :dependent => :destroy
+
+  def current_subscription
+    if self.subscriptions.empty?
+      Subscription.new(plan: Plan.find_by_code('FREE'))
+    else
+      last = self.subscriptions.active.last
+      if last && last.plan
+        last
+      else
+        # TODO: if a user has an old subscription he's being assumed as 'FREE'
+        Subscription.new(plan: Plan.find_by_code('FREE'))
+      end
+    end
+  end
 
   # attr_accessible :email, :password, :password_confirmation, :remember_me, :login, :username, :approved
   # TODO: block :username from being modified after registration
