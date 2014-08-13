@@ -168,6 +168,21 @@ Mconf::Application.routes.draw do
   # General statistics for the website
   get '/statistics', :to => 'statistics#show', :as => 'show_statistics'
 
+  # Futurizando
+  resources :plans, only: [:index] do
+    collection do
+      post :fetch
+    end
+  end
+  get "/pricing", :to => "plans#pricing"
+  resource :subscription, only: [:create, :destroy] do
+    collection do
+      get :success
+      get :cancel
+      #post :notify
+    end
+  end
+
   # 'Hack' to show a custom 404 page.
   # See more at http://blog.igodigital.com/blog/notes-on-cyber-weekend-targeted-email-campaigns/custom-error-handling-in-rails-303
   # and http://ramblinglabs.com/blog/2012/01/rails-3-1-adding-custom-404-and-500-error-pages

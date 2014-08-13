@@ -1,0 +1,96 @@
+= render_page_title t('.title')
+
+- if user_signed_in?
+  .lead= t('.lead_signed_in')
+- else
+  .lead= t('.lead')
+  = link_to t('.sign_up_now'), register_path, :class => 'btn btn-success btn-large sign-up-button'
+  %span.sign-up-notice= t('.notice')
+
+-# if there are no plans, show a warning
+- if @plans.empty? or @plans.any?{ |p| p.nil? }
+  - if user_signed_in? && current_user.superuser
+    .alert.alert-danger
+      = t(".no_plans.alert_admins")
+      = link_to plans_path, plans_path
+  .alert
+    = t(".no_plans.alert_users")
+
+- else
+  %table#table-pricing.table.table-bordered.table-striped
+    %thead
+      %th
+      %th= t('.free')
+      %th= t('.plan1')
+      %th= t('.plan2')
+      %th= t('.plan3')
+      %th= t('.plan4')
+      %th= t('.plan5')
+    %tbody
+      %tr
+        %td= t('.fee')
+        %td= t('.free')
+        - for plan in @plans
+          %td
+            = "$ #{format_plan_pricing(plan.amount)}"
+        %td= t('.call')
+      %tr
+        %td= t('.free_trial')
+        %td= t('.not_needed')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('.call')
+      %tr
+        %td= t('.unlimited_participation')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('._yes')
+        %td= t('.call')
+      %tr
+        %td= t('.total_users')
+        %td 2
+        %td 12
+        %td 12
+        %td 20
+        %td 20
+        %td= t('.call')
+      %tr
+        %td= t('.storage')
+        %td 1 GB
+        %td 1 GB
+        %td 1 GB
+        %td 3 GB
+        %td 3 GB
+        %td= t('.call')
+
+      - if user_signed_in?
+        %tr
+          - plan_selected = false
+          %td
+          - if current_subscription == 'FREE'
+            - plan_selected = true
+            %td.selected
+              %span= t('.your_plan')
+          - else
+            %td
+              = link_to t('.downgrade'), subscription_path, :class => 'btn btn-small cancel-subscription-button', :method => 'delete', :confirm => t('.confirm_unsubscribe')
+          - for plan in @plans
+            - if current_subscription == plan.code
+              - plan_selected = true
+              %td.selected
+                %span= t('.your_plan')
+            - else
+              %td
+                - if plan_selected || current_subscription.nil?
+                  = link_to t('.upgrade'), '', :class => 'purchase-button btn btn-info', :'data-plan-id' => plan.code
+                - else
+                  = link_to t('.downgrade'), '', :class => 'purchase-button btn btn-small', :'data-plan-id' => plan.code
+          %td
+
+  %form#subscription-form{ :action => subscription_path, :method => 'POST' }
+    = token_tag(nil)
+    = hidden_field_tag :subscription_plan_id, '', :name => 'subscription[plan_id]'

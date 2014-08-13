@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721191825) do
+ActiveRecord::Schema.define(version: 20140812182337) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -242,6 +242,19 @@ ActiveRecord::Schema.define(version: 20140721191825) do
     t.datetime "updated_at"
   end
 
+  create_table "plans", force: true do |t|
+    t.string   "name",           null: false
+    t.string   "code",           null: false
+    t.string   "description",    null: false
+    t.integer  "amount",         null: false
+    t.string   "currency"
+    t.string   "interval"
+    t.integer  "interval_count"
+    t.integer  "trial_days"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "posts", force: true do |t|
     t.string   "title"
     t.text     "text"
@@ -385,6 +398,19 @@ ActiveRecord::Schema.define(version: 20140721191825) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "subscriptions", force: true do |t|
+    t.integer  "plan_id",                      null: false
+    t.integer  "user_id",                      null: false
+    t.string   "code"
+    t.string   "paypal_id"
+    t.string   "paypal_token"
+    t.boolean  "completed",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username"

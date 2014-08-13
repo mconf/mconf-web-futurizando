@@ -91,6 +91,10 @@ gem 'exception_notification', '~> 4.0.0'
 # generate .ics
 gem 'icalendar'
 
+
+# Futurizando
+gem 'paypal-express'
+
 #
 # TODO: Gems to review if we can remove/update
 #

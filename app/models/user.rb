@@ -29,6 +29,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Futurizando
+  has_one :subscription, :dependent => :destroy
+
   # attr_accessible :email, :password, :password_confirmation, :remember_me, :login, :username, :approved
   # TODO: block :username from being modified after registration
   # attr_accessible :username, :as => :create

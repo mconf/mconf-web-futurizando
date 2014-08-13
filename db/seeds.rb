@@ -77,4 +77,26 @@ else
   puts u.errors.inspect
 end
 
+# TODO: temporary
+Plan.create!({
+  name: "G Basic M",
+  code: "G-Basic-M",
+  description: "The plan G Basic M",
+  amount: "399",
+  currency: "usd",
+  interval: "MONTH",
+  interval_count: 1,
+  trial_days: 30
+})
+Plan.create!({
+  name: "G Basic Y",
+  code: "G-Basic-Y",
+  description: "The plan G Basic Y",
+  amount: "3099",
+  currency: "usd",
+  interval: "YEAR",
+  interval_count: 1,
+  trial_days: 30
+})
+
 puts "* db:seed finished successfully"

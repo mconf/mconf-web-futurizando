@@ -1,0 +1,14 @@
+development: &sandbox # change to your own
+  username: SET_YOUR_OWN
+  password: SET_YOUR_OWN
+  signature: SET_YOUR_OWN
+  sandbox: true
+
+test:
+  <<: *sandbox
+
+production: &production
+  username: SET_YOUR_OWN
+  password: SET_YOUR_OWN
+  signature: SET_YOUR_OWN
+  sandbox: false
