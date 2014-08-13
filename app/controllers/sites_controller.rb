@@ -47,7 +47,9 @@ class SitesController < ApplicationController
      :ldap_user_treebase, :ldap_username_field, :ldap_email_field, :ldap_name_field, :ldap_filter, :smtp_login, :smtp_password,
      :smtp_sender, :smtp_domain, :smtp_server, :smtp_port, :smtp_use_tls, :smtp_auto_tls, :smtp_auth_type, :exception_notifications,
      :exception_notifications_email, :exception_notifications_prefix, :chat_enabled, :presence_domain, :xmpp_server, :external_help,
-     :registration_enabled, :require_registration_approval, :local_auth_enabled, :events_enabled
+     :registration_enabled, :require_registration_approval, :local_auth_enabled, :events_enabled,
+     :paypal_username_test, :paypal_password_test, :paypal_signature_test,
+     :paypal_username_live, :paypal_password_live, :paypal_signature_live
     ]
   end
 end

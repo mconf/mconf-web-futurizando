@@ -36,4 +36,22 @@ class Site < ActiveRecord::Base
     "#{name} <#{email}>"
   end
 
+  def paypal_configs
+    if Rails.env == "production"
+      {
+        username: self.paypal_username_live,
+        password: self.paypal_password_live,
+        signature: self.paypal_signature_live,
+        sandbox: self.paypal_sandbox
+      }
+    else
+      {
+        username: self.paypal_username_test,
+        password: self.paypal_password_test,
+        signature: self.paypal_signature_test,
+        sandbox: self.paypal_sandbox
+      }
+    end
+  end
+
 end

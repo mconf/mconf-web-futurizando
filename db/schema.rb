@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812182337) do
+ActiveRecord::Schema.define(version: 20140813183005) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -377,6 +377,13 @@ ActiveRecord::Schema.define(version: 20140812182337) do
     t.string   "ldap_filter"
     t.boolean  "shib_always_new_account",        default: false
     t.boolean  "local_auth_enabled",             default: true
+    t.string   "paypal_username_live"
+    t.string   "paypal_password_live"
+    t.string   "paypal_signature_live"
+    t.string   "paypal_username_test"
+    t.string   "paypal_password_test"
+    t.string   "paypal_signature_test"
+    t.boolean  "paypal_sandbox",                 default: true
   end
 
   create_table "spaces", force: true do |t|

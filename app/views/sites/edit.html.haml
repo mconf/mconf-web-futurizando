@@ -50,4 +50,11 @@
     = f.input :require_registration_approval, :as => :boolean
     = f.input :local_auth_enabled, :as => :boolean
     = f.input :events_enabled, :as => :boolean
+    = f.input :paypal_sandbox
+    = f.input :paypal_username_test
+    = f.input :paypal_password_test, :as => :string
+    = f.input :paypal_signature_test
+    = f.input :paypal_username_live
+    = f.input :paypal_password_live, :as => :string
+    = f.input :paypal_signature_live
   = f.button :wrapped, :cancel => site_path, :value => t("_other.save")

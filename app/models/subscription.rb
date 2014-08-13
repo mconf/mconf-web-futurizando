@@ -74,7 +74,7 @@ class Subscription < ActiveRecord::Base
   private
 
   def client
-    Paypal::Express::Request.new PAYPAL_CONFIG
+    Paypal::Express::Request.new Site.current.paypal_configs
   end
 
   def payment_request

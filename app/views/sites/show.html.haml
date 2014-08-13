@@ -50,5 +50,12 @@
     = f.input :require_registration_approval, :as => :boolean, :disabled => true
     = f.input :local_auth_enabled, :as => :boolean, :disabled => true
     = f.input :events_enabled, :as => :boolean, :disabled => true
+    = f.input :paypal_sandbox, :as => :boolean, :disabled => true
+    = f.input :paypal_username_test, :disabled => true
+    = f.input :paypal_password_test, :as => :string, :disabled => true
+    = f.input :paypal_signature_test, :disabled => true
+    = f.input :paypal_username_live, :disabled => true
+    = f.input :paypal_password_live, :as => :string, :disabled => true
+    = f.input :paypal_signature_live, :disabled => true
   .form-actions
     = link_to t('_other.edit'), edit_site_path, :class => "btn btn-primary"
