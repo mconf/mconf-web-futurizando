@@ -34,4 +34,7 @@
  *= require ./app/shared/_copy_modal
  *= require ./app/feedback/_new
  *
+ * Futurizando overrides
+ *= require ./app/application/futurizando
+ *
  */

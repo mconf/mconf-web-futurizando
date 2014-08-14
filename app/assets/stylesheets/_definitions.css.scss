@@ -252,9 +252,9 @@ $link-color: darken($fut-blue-dark, 10);
 $link-color-hover: lighten($link-color, 10);
 $link-color-active: darken($link-color-hover, 15);
 // navbar
-$navbar-height: 45px;
-$navbar-bg-color-dark: $fut-purple;
-$navbar-bg-color-light: $fut-purple;
+$navbar-height: 35px;
+$navbar-bg-color-dark: #0c112f;
+$navbar-bg-color-light: #1e224f;
 $navbar-font-color: #ccc;
 $navbar-font-color-hover: #fff;
 // page header

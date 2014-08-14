@@ -6,15 +6,39 @@
 
 /* Overriding base.css.scss */
 #navbar-wrapper {
-  background: url(asset_path('futurizando-navbar-bg.jpg', 'image')) repeat scroll center top #2E343D;
+  background: url(asset_path('futurizando-navbar-bg.jpg', 'image')) repeat scroll center top $navbar-bg-color-light;
   @include box-shadow(none);
 }
-#navbar {
-  //height: 45px;
+body.frontpage #navbar-wrapper {
+  border-top: 50px solid $navbar-bg-color-light;
+  border-bottom: 30px solid $fut-blue-light;
+  background: $navbar-bg-color-light;
+  background: url(asset_path('futurizando-frontpage-navbar-bg.jpg', 'image')) repeat-x scroll left top $navbar-bg-color-light;
+  @include box-shadow(none);
 
+  #navbar {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  #main-logo {
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+
+  #main-logo, #main-logo img {
+    width: 560px;
+    height: 120px;
+  }
+}
+#navbar {
   #navbar-right-links .user-info-dropdown {
-    padding-top: 10px;
+    padding-top: 5px;
     padding-bottom: 7px;
+  }
+
+  ul#navbar-left-links li, ul#navbar-right-links li {
+    margin-top: 8px;
   }
 }
 /* body.frontpage #page-header { */
@@ -28,10 +52,7 @@ ul#navbar-left-links, ul#navbar-right-links {
 }
 #main-logo {
   img {
-    width: 350px;
-    margin-top: 1px;
+    width: 233px;
+    margin-top: 0px;
   }
-}
-ul#navbar-left-links li, ul#navbar-right-links li {
-  margin-top: 13px;
 }
