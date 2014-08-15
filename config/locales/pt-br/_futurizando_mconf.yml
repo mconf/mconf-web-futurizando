@@ -1,0 +1,7 @@
+---
+pt-br:
+  subscriptions:
+    success:
+      complete: "O seu plano foi assinado com sucesso, obrigado!"
+    cancel:
+      canceled: "Sua assinatura não foi finalizada, por favor tente novamente."

@@ -1,0 +1,7 @@
+---
+en:
+  subscriptions:
+    success:
+      complete: "Your were successfully subscribed, thank you!"
+    cancel:
+      canceled: "You subscription was not completed, please try again."

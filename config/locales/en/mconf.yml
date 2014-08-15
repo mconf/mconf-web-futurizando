@@ -835,6 +835,7 @@ en:
       login: "Sign in"
       manage: "Manage"
       register: "Register"
+      upgrade: "Upgrade your plan"
     footer:
       copyright: "© 2010-2014 %{site}."
       current_version: "Current version"

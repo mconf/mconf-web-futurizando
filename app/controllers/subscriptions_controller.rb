@@ -33,7 +33,7 @@ class SubscriptionsController < ApplicationController
   def success
     handle_callback do |subscription|
       subscription.complete!
-      flash[:notice] = 'Subscription Transaction Completed'
+      flash[:notice] = t("subscriptions.success.complete")
       pricing_path
     end
   end
@@ -41,7 +41,7 @@ class SubscriptionsController < ApplicationController
   def cancel
     handle_callback do |subscription|
       subscription.cancel!
-      flash[:warn] = 'Subscription Request Canceled'
+      flash[:warn] = t("subscriptions.cancel.canceled")
       pricing_path
     end
   end

@@ -33,12 +33,14 @@
 -# the right menu is not shown in the home page
 - if at_home?
   %ul#navbar-right-links
+    %li= link_to t('.upgrade'), main_app.pricing_path, :class => 'btn btn-success btn-small'
     %li.last
       = link_to main_app.logout_path do
         = t('logout', :user => current_user.name)
 - else
   %ul#navbar-right-links
     - if user_signed_in?
+      %li= link_to t('.upgrade'), main_app.pricing_path, :class => 'btn btn-success btn-small'
       %li.dropdown.user-info-dropdown.last
 
         -# small user information in the navbar

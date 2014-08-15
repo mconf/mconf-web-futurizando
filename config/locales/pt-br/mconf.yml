@@ -835,6 +835,7 @@ pt-br:
       login: "Login"
       manage: "Gerenciar"
       register: "Registre-se"
+      upgrade: "Atualize seu plano"
     footer:
       copyright: "© 2010-2014 %{site}."
       current_version: "Versão atual"
